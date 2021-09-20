@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'enum/increment_button_position.dart';
@@ -5,6 +7,8 @@ import 'increment_button_clipper.dart';
 import 'increment_button_simulation.dart';
 
 class IncrementButton extends StatefulWidget {
+
+
   /// Label of the button.
   final Widget? label;
 
@@ -54,21 +58,18 @@ class IncrementButton extends StatefulWidget {
   /// If `true`, [child] will disappear along with button sliding. Otherwise, it stay visible even the button was slide.
   final bool dismissible;
 
-  /// Initial button position. It can on the left or right.
-  final IncrementButtonPosition initialPosition;
-
   /// Listen to position, is button on the left or right.
   ///
   /// You must set this argument although is null.
-  final ValueChanged<IncrementButtonPosition>? onChanged;
+  final ValueChanged<int> onDelta;
 
   /// Controller for the button while sliding.
   final AnimationController? controller;
 
   /// Creates a [IncrementButton]
-  const IncrementButton({
+  IncrementButton({
     Key? key,
-    required this.onChanged,
+    required this.onDelta,
     this.controller,
     this.child,
     this.disabledColor,
@@ -77,9 +78,8 @@ class IncrementButton extends StatefulWidget {
     this.label,
     this.border,
     this.borderRadius = const BorderRadius.all(Radius.circular(60.0)),
-    this.initialPosition = IncrementButtonPosition.center,
     this.height = 36.0,
-    this.width = 120.0,
+    this.width = 80.0,
     this.buttonWidth,
     this.dismissible = true,
   }) : super(key: key);
@@ -90,6 +90,12 @@ class IncrementButton extends StatefulWidget {
 
 class _IncrementButtonState extends State<IncrementButton>
     with SingleTickerProviderStateMixin {
+
+  Timer? t;
+  Duration d = Duration(seconds: 2);
+  int segments = 7;
+  
+        
   final GlobalKey _containerKey = GlobalKey();
   final GlobalKey _positionedKey = GlobalKey();
 
@@ -118,9 +124,7 @@ class _IncrementButtonState extends State<IncrementButton>
         widget.controller ?? AnimationController.unbounded(vsync: this);
     _contentAnimation = Tween<double>(begin: 1.0, end: 0.0)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
-    if (widget.initialPosition == IncrementButtonPosition.center) {
-      _controller.value = 0.5;
-    }
+    _controller.value = 0.5;
   }
 
   @override
@@ -178,18 +182,14 @@ class _IncrementButtonState extends State<IncrementButton>
               height: widget.height,
               decoration: BoxDecoration(
                 borderRadius: widget.borderRadius,
-                color: widget.onChanged == null
-                    ? widget.disabledColor ?? Colors.grey
-                    : widget.buttonColor,
+                color: widget.buttonColor,
               ),
-              child: widget.onChanged == null
-                  ? Center(child: widget.label)
-                  : GestureDetector(
-                      onHorizontalDragStart: _onDragStart,
-                      onHorizontalDragUpdate: _onDragUpdate,
-                      onHorizontalDragEnd: _onDragEnd,
-                      child: Center(child: widget.label),
-                    ),
+              child: GestureDetector(
+                onHorizontalDragStart: _onDragStart,
+                onHorizontalDragUpdate: _onDragUpdate,
+                onHorizontalDragEnd: _onDragEnd,
+                child: Center(child: widget.label),
+              ),
             ),
           ),
         ],
@@ -208,8 +208,8 @@ class _IncrementButtonState extends State<IncrementButton>
     final extent = _container!.size.width - _positioned!.size.width;
     _controller.value = (pos.dx.clamp(0.0, extent) / extent);
 
-    
-    print(_controller.value.toString());
+    // print(_controller.value.toString());
+    _emit(_controller.value);
   }
 
   void _onDragEnd(DragEndDetails details) {
@@ -227,29 +227,86 @@ class _IncrementButtonState extends State<IncrementButton>
       velocity = fractionalVelocity;
     }
 
-    final simulation = IncrementSimulation(
-      acceleration,
-      (_controller.value - 0.5).abs(),
-      1.0,
-      velocity,
-    );
+    // final simulation = IncrementSimulation(
+    //   acceleration,
+    //   (_controller.value - 0.5).abs(),
+    //   1.0,
+    //   velocity,
+    // );
 
-      if (widget.onChanged != null) {
-        widget.onChanged!(_rangeToPosition(_controller.value));
-      }
+    // widget.onDelta!(_rangeToPosition(_controller.value));
 
     setState(() {
       _controller.value = 0.5;
     });
 
-
     // _controller.animateWith(simulation).whenComplete(() {
     // });
+  }
 
+
+  IncrementButtonPosition _prev = IncrementButtonPosition.center;
+  _emit(double value) {
+    IncrementButtonPosition p = _rangeToPosition(value);
+
+    // if (t == null) {
+    //   return;
+    // }
+
+    if (p == IncrementButtonPosition.center) {
+      if (t == null) {
+        return;
+      } else {
+        t!.cancel();
+        return;
+      }
+    }
+
+    if (p == _prev) {
+      return;
+    }
+
+    p = _prev;
+
+    if (t != null) {
+      t!.cancel();
+    }
+
+    t = Timer(d, ping);
+  }
+
+  ping() {
+    IncrementButtonPosition p = _rangeToPosition(_controller.value);
+    int delta = 0;
+    switch (p) {
+      case IncrementButtonPosition.veryFarLeft:
+        delta = -10;
+        break;
+      case IncrementButtonPosition.farLeft:
+        delta = -5;
+        break;
+      case IncrementButtonPosition.left:
+        delta = -1;
+        break;
+      case IncrementButtonPosition.right:
+        delta = 1;
+        break;
+      case IncrementButtonPosition.farRight:
+        delta = 5;
+        break;
+      case IncrementButtonPosition.veryFarRight:
+        delta = 10;
+        break;
+
+      default:
+        delta = 0;
+    }
+
+    widget.onDelta(delta);
+    _emit(_controller.value);
   }
 
   IncrementButtonPosition _rangeToPosition(double pos) {
-    int segments = 7;
     if (pos < 1 / segments) {
       return IncrementButtonPosition.veryFarLeft;
     }

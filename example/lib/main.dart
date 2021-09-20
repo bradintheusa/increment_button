@@ -14,7 +14,7 @@ class IncrementButtonDemo extends StatefulWidget {
 
 class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
   String result = "Let's slide!";
-  double _value = 3;
+  int i = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +26,14 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          
             Text('Slide this button to left or right.'),
             SizedBox(height: 16.0),
             IncrementButton(
-              width: MediaQuery.of(context).size.width ,
+              width: MediaQuery.of(context).size.width,
               buttonWidth: 60.0,
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
               buttonColor: Theme.of(context).primaryColor,
               dismissible: false,
-              initialPosition: IncrementButtonPosition.center,
               label: Center(child: Text('🏈')),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -48,17 +46,14 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
                     Text('+1'),
                     Text('+5'),
                     Text('+10'),
-
                   ],
                 ),
               ),
-              onChanged: (position) {
+              onDelta: (change) {
                 setState(() {
-                  // if (position == IncrementButtonPosition.right) {
-                    result = 'Button is on the ' + position.toString();
-                  // } else {
-                    // result = 'Button is on the left';
-                  // }
+                  i = i + change;
+                  result = 'New value is $i ';
+                  print(result);
                 });
               },
             ),
