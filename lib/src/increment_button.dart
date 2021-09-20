@@ -92,10 +92,10 @@ class _IncrementButtonState extends State<IncrementButton>
     with SingleTickerProviderStateMixin {
 
   Timer? t;
-  Duration d = Duration(seconds: 2);
+  Duration d = Duration(milliseconds: 450);
   int segments = 7;
-  
-        
+
+
   final GlobalKey _containerKey = GlobalKey();
   final GlobalKey _positionedKey = GlobalKey();
 
@@ -227,21 +227,21 @@ class _IncrementButtonState extends State<IncrementButton>
       velocity = fractionalVelocity;
     }
 
-    // final simulation = IncrementSimulation(
-    //   acceleration,
-    //   (_controller.value - 0.5).abs(),
-    //   1.0,
-    //   velocity,
-    // );
+    final simulation = IncrementSimulation(
+      acceleration,
+      (_controller.value - 0.5).abs(),
+      1.0,
+      velocity,
+    );
 
-    // widget.onDelta!(_rangeToPosition(_controller.value));
+    
 
     setState(() {
       _controller.value = 0.5;
     });
 
-    // _controller.animateWith(simulation).whenComplete(() {
-    // });
+     _controller.animateWith(simulation);
+     
   }
 
 

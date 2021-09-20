@@ -30,7 +30,7 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
             SizedBox(height: 16.0),
             IncrementButton(
               width: MediaQuery.of(context).size.width,
-              buttonWidth: 60.0,
+              buttonWidth: 45.0,
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
               buttonColor: Theme.of(context).primaryColor,
               dismissible: false,
