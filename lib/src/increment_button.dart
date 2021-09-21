@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'increment_button_simulation.dart';
-
 enum IncrementButtonPosition {
   veryFarLeft,
   farLeft,
@@ -19,7 +17,7 @@ class IncrementButton extends StatefulWidget {
   final Widget? label;
 
   /// A widget that is behind the button.
-  final Widget? child;
+  // final Widget? child;
 
   /// Button color if it disabled.
   ///
@@ -77,7 +75,7 @@ class IncrementButton extends StatefulWidget {
     Key? key,
     required this.onDelta,
     this.controller,
-    this.child,
+    // this.child,
     this.disabledColor,
     this.buttonColor,
     this.color,
@@ -104,7 +102,6 @@ class _IncrementButtonState extends State<IncrementButton>
   final GlobalKey _positionedKey = GlobalKey();
 
   late final AnimationController _controller;
-  late Animation<double> _contentAnimation;
   Offset _start = Offset.zero;
 
   RenderBox? get _positioned =>
@@ -127,8 +124,6 @@ class _IncrementButtonState extends State<IncrementButton>
     _controller = widget.controller ??
         AnimationController.unbounded(
             vsync: this, duration: Duration(milliseconds: 150));
-    _contentAnimation = Tween<double>(begin: 1.0, end: 0.0)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
     _controller.value = 0.5;
   }
 
@@ -155,22 +150,21 @@ class _IncrementButtonState extends State<IncrementButton>
               color: widget.color,
               borderRadius: widget.borderRadius,
             ),
-            child: //widget.dismissible
-                // ? ClipRRect(
-                //     clipper: IncrementButtonClipper(
-                //       animation: _controller,
-                //       borderRadius: widget.borderRadius,
-                //     ),
-                //     borderRadius: widget.borderRadius,
-                //     child: SizedBox.expand(
-                //       child: FadeTransition(
-                //         opacity: _contentAnimation,
-                //         child: widget.child,
-                //       ),
-                //     ),
-                //   )
-                SizedBox.expand(child: widget.child),
-          ),
+            child: 
+                SizedBox.expand(child:                Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('-10'),
+                    Text('-5'),
+                    Text('-1'),
+                    Text('+1'),
+                    Text('+5'),
+                    Text('+10'),
+                  ],
+                ),),
+             )   ),
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) => Align(
@@ -218,41 +212,12 @@ class _IncrementButtonState extends State<IncrementButton>
   }
 
   void _onDragEnd(DragEndDetails details) {
-    final extent = _container!.size.width - _positioned!.size.width;
-    var fractionalVelocity = (details.primaryVelocity! / extent).abs();
-    if (fractionalVelocity < 0.5) {
-      fractionalVelocity = 0.5;
-    }
-    double acceleration, velocity;
-    if (_controller.value >= 0.5) {
-      acceleration = 0.5;
-      velocity = -fractionalVelocity;
-    } else {
-      acceleration = -0.5;
-      velocity = fractionalVelocity;
-    }
-
-    // final simulation = IncrementSimulation(
-    //   acceleration,
-    //   (_controller.value - 0.5).abs(),
-    //   1.0,
-    //   velocity,
-    // );
-
-    // setState(() {
-    //   _controller.value = 0.5;
-    // });
-
     _controller.animateTo(0.5);
   }
 
   IncrementButtonPosition _prev = IncrementButtonPosition.center;
   _emit(double value) {
     IncrementButtonPosition p = _rangeToPosition(value);
-
-    // if (t == null) {
-    //   return;
-    // }
 
     if (p == IncrementButtonPosition.center) {
       if (t == null) {

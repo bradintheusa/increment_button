@@ -35,20 +35,8 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
               buttonColor: Theme.of(context).primaryColor,
               dismissible: false,
               label: Center(child: Text('🏈')),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('-10'),
-                    Text('-5'),
-                    Text('-1'),
-                    Text('+1'),
-                    Text('+5'),
-                    Text('+10'),
-                  ],
-                ),
-              ),
+
+              
               onDelta: (change) {
                 setState(() {
                   i = i + change;
