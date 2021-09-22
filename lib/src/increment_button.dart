@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum IncrementButtonPosition {
   veryFarLeft,
@@ -15,14 +16,6 @@ enum IncrementButtonPosition {
 class IncrementButton extends StatefulWidget {
   /// Label of the button.
   final Widget? label;
-
-  /// A widget that is behind the button.
-  // final Widget? child;
-
-  /// Button color if it disabled.
-  ///
-  /// [disabledColor] is set to `Colors.grey` by default.
-  final Color? disabledColor;
 
   /// The color of button.
   ///
@@ -40,7 +33,8 @@ class IncrementButton extends StatefulWidget {
   /// Border Radius for the button and it's child.
   ///
   /// Default value is `const BorderRadius.all(const Radius.circular(60.0))`
-  final BorderRadius borderRadius;
+  final BorderRadius borderRadius =
+      const BorderRadius.all(Radius.circular(60.0));
 
   /// The height of this widget (button and it's background).
   ///
@@ -57,13 +51,6 @@ class IncrementButton extends StatefulWidget {
   /// The minimum size is [height], and the maximum size is three quarters from [width].
   final double? buttonWidth;
 
-  /// It means the effect while and after sliding.
-  ///
-  /// If `true`, [child] will disappear along with button sliding. Otherwise, it stay visible even the button was slide.
-  final bool dismissible;
-
-  /// Listen to position, is button on the left or right.
-  ///
   /// You must set this argument although is null.
   final ValueChanged<int> onDelta;
 
@@ -75,17 +62,13 @@ class IncrementButton extends StatefulWidget {
     Key? key,
     required this.onDelta,
     this.controller,
-    // this.child,
-    this.disabledColor,
     this.buttonColor,
     this.color,
     this.label,
     this.border,
-    this.borderRadius = const BorderRadius.all(Radius.circular(60.0)),
     this.height = 36.0,
     this.width = 80.0,
     this.buttonWidth,
-    this.dismissible = true,
   }) : super(key: key);
 
   @override
@@ -146,25 +129,28 @@ class _IncrementButtonState extends State<IncrementButton>
         key: _containerKey,
         children: <Widget>[
           DecoratedBox(
-            decoration: BoxDecoration(
-              color: widget.color,
-              borderRadius: widget.borderRadius,
-            ),
-            child: 
-                SizedBox.expand(child:                Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('-10'),
-                    Text('-5'),
-                    Text('-1'),
-                    Text('+1'),
-                    Text('+5'),
-                    Text('+10'),
-                  ],
-                ),),
-             )   ),
+              decoration: BoxDecoration(
+                color: widget.color,
+                borderRadius: widget.borderRadius,
+              ),
+              child: SizedBox.expand(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 6, left: 8, right: 8, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FaIcon(FontAwesomeIcons.angleDoubleLeft,color: Colors.black87),
+                      FaIcon(FontAwesomeIcons.angleLeft, color: Colors.black45),
+                      FaIcon(FontAwesomeIcons.angleLeft, color: Colors.black26),
+                      FaIcon(FontAwesomeIcons.angleRight,color: Colors.black26),
+                      FaIcon(FontAwesomeIcons.angleRight,color: Colors.black45),
+                      FaIcon(FontAwesomeIcons.angleDoubleRight,
+                          color: Colors.black87),
+                    ],
+                  ),
+                ),
+              )),
           AnimatedBuilder(
             animation: _controller,
             builder: (context, child) => Align(
