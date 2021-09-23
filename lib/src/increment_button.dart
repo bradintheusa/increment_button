@@ -14,6 +14,9 @@ enum IncrementButtonPosition {
 }
 
 class IncrementButton extends StatefulWidget {
+
+  // I've kept the interhface light and to just what I need. If you need
+  // to add something just make a pull reqest.
   /// Label of the button.
   final Widget? label;
 
@@ -51,7 +54,7 @@ class IncrementButton extends StatefulWidget {
   /// The minimum size is [height], and the maximum size is three quarters from [width].
   final double? buttonWidth;
 
-  /// You must set this argument although is null.
+  /// You must set this to get notifcations of changes..
   final ValueChanged<int> onDelta;
 
   /// Controller for the button while sliding.

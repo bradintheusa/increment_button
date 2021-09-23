@@ -15,36 +15,54 @@ class IncrementButtonDemo extends StatefulWidget {
 class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
   String result = "Let's slide!";
   int i = 0;
-  int _delta = 0;
+  int delta = 0;
+
+// This is from https://medium.com/flutter-community/what-do-you-know-about-aniamtedswitcher-53cc3a4bebb8
+// it is nothing to do with the component, just a cool animation to put the component in a 
+// good light.
 
   _transitionBuilder(Widget child, Animation<double> animation, String key) {
-    final inAnimation =
-        Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
-            .animate(animation);
-    final outAnimation =
-        Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset(0.0, 0.0))
-            .animate(animation);
+    {
+      final inAnimation =
+          Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+              .animate(animation);
+      final outAnimation =
+          Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset(0.0, 0.0))
+              .animate(animation);
 
-    if (child.key == ValueKey(key)) {
-      return ClipRect(
-        child: SlideTransition(
-          position: inAnimation,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: child,
-          ),
-        ),
-      );
-    } else {
-      return ClipRect(
-        child: SlideTransition(
-          position: outAnimation,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: child,
-          ),
-        ),
-      );
+      if (delta > 0) {
+        if (child.key == ValueKey(key)) {
+          return ClipRect(
+            child: SlideTransition(
+              position: inAnimation,
+              child: child,
+            ),
+          );
+        } else {
+          return ClipRect(
+            child: SlideTransition(
+              position: outAnimation,
+              child: child,
+            ),
+          );
+        }
+      } else {
+        if (child.key == ValueKey(key)) {
+          return ClipRect(
+            child: SlideTransition(
+              position: outAnimation,
+              child: child,
+            ),
+          );
+        } else {
+          return ClipRect(
+            child: SlideTransition(
+              position: inAnimation,
+              child: child,
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -63,11 +81,13 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
               transitionBuilder: (Widget child, Animation<double> animation) {
                 return _transitionBuilder(child, animation, i.toString());
               },
-              child: Text(
-                i.toString(),
-                key: ValueKey<int>(i),
-                style: Theme.of(context).textTheme.headline3,
-              ),
+              child: Padding(
+                  key: ValueKey(i.toString()),
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    i.toString(),
+                    style: Theme.of(context).textTheme.headline3,
+                  )),
             ),
             Text('Slide this button to left or right.'),
             SizedBox(height: 16.0),
@@ -79,7 +99,7 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
               label: Center(child: Text('🏈')),
               onDelta: (change) {
                 setState(() {
-                  _delta = change;
+                  delta = change;
                   i = i + change;
                   result = 'New value is $i ';
                 });
