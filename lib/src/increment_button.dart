@@ -15,8 +15,10 @@ enum IncrementButtonPosition {
 
 class IncrementButton extends StatefulWidget {
 
-  // I've kept the interhface light and to just what I need. If you need
+  // I've kept the interface light and made it just what I need. If you need
   // to add something just make a pull reqest.
+
+
   /// Label of the button.
   final Widget? label;
 
@@ -60,6 +62,7 @@ class IncrementButton extends StatefulWidget {
   /// Controller for the button while sliding.
   final AnimationController? controller;
 
+
   /// Creates a [IncrementButton]
   IncrementButton({
     Key? key,
@@ -80,9 +83,11 @@ class IncrementButton extends StatefulWidget {
 
 class _IncrementButtonState extends State<IncrementButton>
     with SingleTickerProviderStateMixin {
-  Timer? t;
-  Duration d = Duration(milliseconds: 450);
+  Timer? _delayTimer;
+  // the time you need to hold still for.
+  Duration _delay = Duration(milliseconds: 450);
   int segments = 7;
+  IncrementButtonPosition _previousPosition = IncrementButtonPosition.center;
 
   final GlobalKey _containerKey = GlobalKey();
   final GlobalKey _positionedKey = GlobalKey();
@@ -204,33 +209,32 @@ class _IncrementButtonState extends State<IncrementButton>
     _controller.animateTo(0.5);
   }
 
-  IncrementButtonPosition _prev = IncrementButtonPosition.center;
   _emit(double value) {
-    IncrementButtonPosition p = _rangeToPosition(value);
+    IncrementButtonPosition _position = _rangeToPosition(value);
 
-    if (p == IncrementButtonPosition.center) {
-      if (t == null) {
+    if (_position == IncrementButtonPosition.center) {
+      if (_delayTimer == null) {
         return;
       } else {
-        t!.cancel();
+        _delayTimer!.cancel();
         return;
       }
     }
 
-    if (p == _prev) {
+    if (_position == _previousPosition) {
       return;
     }
 
-    p = _prev;
+    _position = _previousPosition;
 
-    if (t != null) {
-      t!.cancel();
+    if (_delayTimer != null) {
+      _delayTimer!.cancel();
     }
 
-    t = Timer(d, ping);
+    _delayTimer = Timer(_delay, _callEmitEvent);
   }
 
-  ping() {
+  _callEmitEvent() {
     IncrementButtonPosition p = _rangeToPosition(_controller.value);
     int delta = 0;
     switch (p) {
