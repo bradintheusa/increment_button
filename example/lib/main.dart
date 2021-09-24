@@ -89,14 +89,14 @@ class _IncrementButtonDemoState extends State<IncrementButtonDemo> {
                     style: Theme.of(context).textTheme.headline3,
                   )),
             ),
-            Text('Slide this button to left or right.'),
+            Text('Swipe this button to left or right.'),
             SizedBox(height: 16.0),
             IncrementButton(
               width: MediaQuery.of(context).size.width,
               buttonWidth: 45.0,
               color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
               buttonColor: Theme.of(context).primaryColor,
-              label: Center(child: Text('🏈')),
+              label: Center(child: Text('🏀')),
               onDelta: (change) {
                 setState(() {
                   delta = change;
