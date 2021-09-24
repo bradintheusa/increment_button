@@ -6,8 +6,8 @@
 
 A simple flutter plugin for Slidable Button.
 
-<img src="https://github.com/bradintheusa/increment_button/master/screenshots/screenshot_1.png?raw=true" width="300px"/> &nbsp; 
-
+<img src="https://raw.githubusercontent.com/bradintheusa/increment_button/master/screenshots/screenshot_1.png" width="300px"/> &nbsp; 
+          
 
 
 
@@ -45,8 +45,10 @@ Code:
     ),
 ```
 
-Video of the component:
+Demo of the component:
 
-https://raw.githubusercontent.com/bradintheusa/increment_button/master/screenshot/untitled.webm
+<img src="https://raw.githubusercontent.com/bradintheusa/increment_button/master/screenshots/demo.gif" width="300px"/> &nbsp; 
+
+
 
 based on : https://github.com/husainazkas/slidable_button
