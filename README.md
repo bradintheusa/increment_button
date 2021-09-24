@@ -6,7 +6,7 @@
 
 A simple flutter plugin for Slidable Button.
 
-<img src="https://raw.githubusercontent.com/bradintheusa/increment_button/master/screenshot/screenshot_1.png" width="300px"/> &nbsp; 
+<img src="https://github.com/bradintheusa/increment_button/master/screenshots/screenshot_1.png?raw=true" width="300px"/> &nbsp; 
 
 
 
@@ -26,6 +26,8 @@ dependencies:
 import 'package:increment_button/increment_button.dart';
 ```
 
+Code:
+
 ```dart
     IncrementButton(
         width: MediaQuery.of(context).size.width,
@@ -43,7 +45,8 @@ import 'package:increment_button/increment_button.dart';
     ),
 ```
 
+Video of the component:
 
-
+https://raw.githubusercontent.com/bradintheusa/increment_button/master/screenshot/untitled.webm
 
 based on : https://github.com/husainazkas/slidable_button
