@@ -1,6 +1,6 @@
 name: increment_button
-description: A simple customizable flutter  button widget.
-version: 0.0.2
+description: Slide the button to change value.
+version: 0.0.3
 homepage: https://github.com/bradintheusa/increment_button
 
 environment:
