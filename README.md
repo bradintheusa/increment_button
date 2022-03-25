@@ -1,6 +1,5 @@
 # increment_button 
 
-
 [![Pub](https://img.shields.io/pub/v/slidable_button.svg?style=flat-square)](https://pub.dartlang.org/packages/increment_button)
 
 
@@ -8,8 +7,6 @@ A simple flutter plugin for Slidable Button.
 
 <img src="https://raw.githubusercontent.com/bradintheusa/increment_button/master/screenshots/screenshot_1.png" width="300px"/> &nbsp; 
           
-
-
 
 ## Getting Started
 
