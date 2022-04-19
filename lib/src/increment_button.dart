@@ -148,12 +148,12 @@ class _IncrementButtonState extends State<IncrementButton>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      FaIcon(FontAwesomeIcons.angleDoubleLeft,color: Colors.black87),
+                      FaIcon(FontAwesomeIcons.angleLeft,color: Colors.black87),
                       FaIcon(FontAwesomeIcons.angleLeft, color: Colors.black45),
                       FaIcon(FontAwesomeIcons.angleLeft, color: Colors.black26),
                       FaIcon(FontAwesomeIcons.angleRight,color: Colors.black26),
                       FaIcon(FontAwesomeIcons.angleRight,color: Colors.black45),
-                      FaIcon(FontAwesomeIcons.angleDoubleRight,
+                      FaIcon(FontAwesomeIcons.angleRight,
                           color: Colors.black87),
                     ],
                   ),
