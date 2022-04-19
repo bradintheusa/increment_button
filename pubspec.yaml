@@ -1,6 +1,6 @@
 name: increment_button
 description: Slide the button to change value.
-version: 0.0.3
+version: 0.1.0
 homepage: https://github.com/bradintheusa/increment_button
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  font_awesome_flutter: ^9.1.0
+  font_awesome_flutter: ^10.1.0
   
 
 dev_dependencies:

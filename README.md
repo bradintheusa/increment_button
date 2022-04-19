@@ -14,7 +14,7 @@ A simple flutter plugin for Slidable Button.
 
 ```yaml
 dependencies:
-  increment_button : 0.0.2
+  increment_button : 0.1.0
 ```
 
 ### Simple to use

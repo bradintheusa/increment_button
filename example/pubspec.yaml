@@ -10,7 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  font_awesome_flutter: ^9.1.0
   increment_button:
     path: ../
 
